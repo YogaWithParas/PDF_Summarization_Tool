@@ -1,43 +1,47 @@
+import os
 import requests
 import json
+from dotenv import load_dotenv
 
-# API Key & URL
-API_KEY = "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"
+# Load environment variables
+load_dotenv()
+API_KEY = os.getenv("OPENROUTER_API_KEY")  # Ensure your .env file contains this
+
+# API Endpoint
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL_NAME = "deepseek/deepseek-r1-distill-llama-70b:free"
 
-# Function to test the API response
+# Function to test the API
 def test_api():
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
     }
-    
-    data = {
-        "model": MODEL_NAME,
-        "messages": [{"role": "user", "content": "Hello, can you respond with a short test message?"}]
-    }
-    
-    print("🔍 Sending API request...")
-    
-    try:
-        response = requests.post(API_URL, headers=headers, json=data, timeout=30)
-        print("\n🔹 Status Code:", response.status_code)
 
+    payload = {
+        "model": MODEL_NAME,
+        "messages": [{"role": "user", "content": "What is the meaning of life?"}]
+    }
+
+    print("\n🔍 Sending API request...")
+
+    try:
+        response = requests.post(API_URL, headers=headers, json=payload, timeout=30)
+
+        # Check HTTP status
         if response.status_code != 200:
-            print("❌ API Request Failed:", response.text)
+            print(f"\n❌ API Request Failed ({response.status_code}): {response.text}")
             return
         
-        try:
-            json_response = response.json()
-            print("\n✅ JSON Response:\n", json.dumps(json_response, indent=2))
-            print("\n🎯 Extracted Message:\n", json_response["choices"][0]["message"]["content"])
-        except json.JSONDecodeError:
-            print("\n⚠️ API Response is not JSON. Full response:")
-            print(response.text)
+        json_response = response.json()
+        print("\n✅ API Response:\n", json.dumps(json_response, indent=2))
+
+        # Extract AI message
+        ai_message = json_response.get("choices", [{}])[0].get("message", {}).get("content", "No content found")
+        print("\n🎯 Extracted Message:\n", ai_message)
 
     except requests.exceptions.RequestException as e:
-        print("\n🚨 Request Exception:", e)
+        print(f"\n❌ Request Error: {e}")
 
 # Run the test
 if __name__ == "__main__":
