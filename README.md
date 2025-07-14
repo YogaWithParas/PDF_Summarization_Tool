@@ -1,8 +1,15 @@
 # PDF Summarization Tool 📝📄
 
 ## 📌 About the Project
-This Python tool automates **PDF research paper summarization** using **DeepSeek AI**.  
-It extracts and summarizes key sections like **Title, Abstract, Introduction, Methodology, Conclusion, and Key Findings**.
+"""
+📚 PDF Summarization Tool using LLMs (OpenRouter API)
+
+Extracts and summarizes key research paper sections (title, abstract, methodology, results, etc.)
+from PDFs using DeepSeek's open LLM via OpenRouter.
+
+Outputs structured summaries in Excel format.
+"""
+
 
 ## 🔥 Features
 - **AI-powered extraction** of structured research paper summaries.
