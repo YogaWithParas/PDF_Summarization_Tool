@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import fitz  # PyMuPDF for PDF text extraction
 import pandas as pd
 import requests
@@ -10,9 +11,9 @@ from dotenv import load_dotenv
 load_dotenv()
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 
-# **Constants**
-DATA_FOLDER = r"C:\Users\prate\OneDrive\Desktop\Pyhton Projects\PDF_Summarization_Tool\data"
-OUTPUT_PATH = r"C:\Users\prate\OneDrive\Desktop\Pyhton Projects\PDF_Summarization_Tool\output\summaries_simpler.xlsx"
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_FOLDER = BASE_DIR / "data"
+OUTPUT_PATH = BASE_DIR / "output" / "summaries.xlsx"
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL_NAME = "deepseek/deepseek-r1-distill-llama-70b:free"
 
